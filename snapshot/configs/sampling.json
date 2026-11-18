@@ -1,0 +1,33 @@
+{
+  "schema_version": 3,
+  "record_status": "v3_first_version_sampling",
+  "adr_ref": "configs/adr/ADR-0001-sampling-974-baseline.json",
+  "note": "仅对第一版代表工况(974nm, 单基线)修改采样数量；保留原数值阈值不变。扫描类采样按用户范围删除，收敛类采样(网格/PML)保留。",
+  "sampling": {
+    "spectral_points": {
+      "v2": "多中心(967/970/973)×多FWHM(10/15/20)窗口谱扫描",
+      "v3_count": 1,
+      "wavelength_nm": 974,
+      "reason": "用户指定单一代表工况，不进行宽谱扫描；S08 相关 gate 标记 deferred"
+    },
+    "tolerance_cases": {
+      "v2": "位置/角度公差情景",
+      "v3_count": 0,
+      "reason": "用户指定不做公差扫描；G21 标记 deferred"
+    },
+    "angular_cut_points": {
+      "v2_count": 17801,
+      "v3_count": 17801,
+      "reason": "复用已验证角谱采样密度，非新增，保证 FWHM 拟合精度不变"
+    },
+    "projection_planes": {
+      "v2": "多个传场/接口平面",
+      "v3_count": 1,
+      "definition": "纤端透镜之后、几何和材料沿法向均匀的光纤内部横截面，用于 HE11 投影；数值端口不等同于实际空气界面或真实裸端面",
+      "reason": "此数值仅指基模投影参考面数量；源参考面、能量账本和必要的额外监视面仍须单独定义与验证"
+    },
+    "mesh_levels_for_G08": { "v2_count": 3, "v3_count": 3, "reason": "G08 为适用收敛 gate，不属于后移扫描" },
+    "pml_domain_variants_for_G09": { "v2_count": 2, "v3_count": 2, "reason": "G09 为适用有效性 gate" },
+    "clean_recompute_points_for_G15": { "v2_count": 2, "v3_count": 2, "points": ["BASE", "一个合法 LAT1 回归点"], "reason": "G15 保留原阈值；两点清解重算仅回归复现，不做参数优化或公差结论" }
+  }
+}

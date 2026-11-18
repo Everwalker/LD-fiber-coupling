@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "checked_date": "2026-09-26",
+  "items": [
+    {
+      "id": "U1",
+      "path": "inputs/private_originals/U1_SOURCE.png",
+      "sha256": "08238deed0a1c17492ac6dabf5f336bc1b0d05433caf4bf51093a5cb90fc4302",
+      "publication_permission": "NOT_ESTABLISHED",
+      "stage_note": "Original file intentionally omitted; recipient must obtain it through separately authorized private transfer."
+    },
+    {
+      "id": "U2",
+      "path": "inputs/private_originals/U2_SOURCE.pdf",
+      "sha256": "2cf09d3e98b01e0240024eb16d3317736a36be3066cddb78f687bd3f48dadb9c",
+      "publication_permission": "NOT_ESTABLISHED",
+      "stage_note": "Original file intentionally omitted; recipient must obtain it through separately authorized private transfer."
+    }
+  ],
+  "redaction_notice": "Sanitized derivative of the source manifest. Original names and source metadata omitted; hashes are retained only for later authorized byte verification."
+}

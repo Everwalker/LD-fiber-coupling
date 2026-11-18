@@ -1,0 +1,156 @@
+{
+  "schema_version": 3,
+  "units_policy": "无单位后缀的数值按 SI 基础单位（m、W）解释；带 _nm/_um/_deg/_mA/_V 等显式后缀的键按后缀单位解释；laser/fiber 中源自 U1/U2 的原始条目保留其原始标注单位",
+  "provenance_grades": {
+    "U1_FROZEN": "冻结自 U1 规格截图，不得改动",
+    "U_USER": "用户明确指定",
+    "L980_INIT": "其他 980nm 研究的初值，非本器件规格、非最优值",
+    "N": "工程归一化选择：数值为计算归一化约定，不是供应商数据",
+    "A": "假设，带情景",
+    "E": "约定或估计",
+    "R": "参考文献/公式",
+    "D": "推导",
+    "LEGACY_V2": "仅存在于 legacy/v2_snapshot 的历史配置"
+  },
+  "laser": {
+    "model": "DG-SM-980-GP-600",
+    "source": "U1",
+    "power_W": 0.6,
+    "calculation_power_W": 1.0,
+    "center_nm": { "min": 967, "typ": 970, "max": 973 },
+    "slow_fwhm_deg": { "min": 4, "typ": 6, "max": 8 },
+    "spectral_fwhm_nm": { "min": 10, "typ": 15, "max": 20 },
+    "mfd_um": { "typ": 5, "definition": "UNKNOWN_AXIS_WIDTH_CONVENTION_PLANE" },
+    "wavelength_temperature_nm_K": 0.35,
+    "cw": true,
+    "kink_min_mW": 660,
+    "chip_length_um": { "min": 3980, "typ": 4000, "max": 4020 },
+    "chip_width_um": { "min": 380, "typ": 400, "max": 420 },
+    "chip_thickness_um": { "min": 105, "typ": 115, "max": 125 },
+    "other_metadata": {
+      "efficiency_percent": { "min": 45, "typ": 50 },
+      "slope_W_A": { "min": 0.8, "typ": 0.89 },
+      "threshold_mA": { "typ": 61, "max": 75 },
+      "current_mA": { "typ": 780, "max": 850 },
+      "voltage_V": { "typ": 1.55, "max": 1.65 }
+    }
+  },
+  "simulation": {
+    "case_id": "LD974-WEDGE-BASE-001",
+    "wavelength_nm": 974,
+    "grade": "U_USER",
+    "source": "用户指定第一版仿真工况（2026-11-11 确认）",
+    "non_confusion_rule": "974 是本包冻结的基线仿真波长，laser.center_nm 的 967/970/973 是原厂资料，二者语义独立；其他波长需新 case 和 ADR，未来可与原厂中心数值相同",
+    "denominator_W": {
+      "value": 1.0,
+      "policy": "固定计算分母，与 laser.calculation_power_W 一致，不得随波长或几何改变",
+      "grade": "N",
+      "note": "1.0 W 是工程归一化选择，不是 U1 原始数据；U1 只给出 600 mW"
+    },
+    "single_baseline": true,
+    "no_shape_comparison": true,
+    "no_optimization": true,
+    "no_tolerance_scan": true,
+    "no_broadband_scan": true
+  },
+  "head_design_v3": {
+    "record_status": "GEOMETRY_PARAMETER_MATH_PRECHECK_NOT_COMSOL",
+    "topology": "光纤端部一体化单块透镜：柱面圆弧（f(y) 沿 x 平移外推，母线沿 x）+ 楔形侧面；轮廓在 (y,z) 平面内。该构造是本包工程假设，不是厂商或用户实测外形",
+    "coordinate_convention": {
+      "x": "水平慢轴（轮廓不变方向）",
+      "y": "垂直快轴（圆弧/楔面轮廓方向）",
+      "z": "传播轴",
+      "grade": "E",
+      "note": "沿用 angular_spectrum.py 的软件坐标约定（x=慢轴、y=快轴、z=传播）；属约定 E 级，不是用户亲自指定，也不是实测"
+    },
+    "wedge_half_angle_deg": {
+      "value": 45,
+      "grade": "L980_INIT",
+      "source": "其他 980nm 研究示意初值",
+      "status": "NOT_TARGET_SPEC_NOT_OPTIMIZED"
+    },
+    "tip_radius_um": {
+      "value": 3.25,
+      "grade": "L980_INIT",
+      "source": "其他 980nm 研究初值",
+      "status": "NOT_TARGET_SPEC_NOT_OPTIMIZED"
+    },
+    "axial_gap_um": {
+      "value": 5.65,
+      "definition": "芯片出射面到透镜顶点的轴向间隙，沿 z",
+      "grade": "L980_INIT",
+      "source": "其他 980nm 研究初值",
+      "status": "NOT_TARGET_SPEC_NOT_OPTIMIZED"
+    },
+    "profile_formula": {
+      "arc": "f(y) = R - sqrt(R^2 - y^2), |y| <= y_t",
+      "tangent": "y_t = R*cos(alpha), z_t = R*(1 - sin(alpha))",
+      "wedge": "f(y) = z_t + cot(alpha)*(|y| - y_t), |y| > y_t",
+      "continuity": "切点处函数值与一阶斜率连续，由 validation/geometry_v3.py 数值核验",
+      "status": "数学参数预检公式；本包工程假设，不是 COMSOL 实际几何，也不是厂商或用户实测外形"
+    },
+    "limits": {
+      "wedge_half_angle_deg": { "exclusive_min": 0, "exclusive_max": 90 },
+      "tip_radius_um": { "exclusive_min": 0 },
+      "axial_gap_um": { "exclusive_min": 0 }
+    },
+    "lens_material": {
+      "value": "fused_silica_equivalent_Malitson",
+      "grade": "R+E",
+      "source": "沿用 assumptions.clad 的 Malitson 熔融石英参考，用于解析估计；实际材料/掺杂未验证",
+      "absorption_k": 0
+    }
+  },
+  "two_lens_v2": {
+    "active": false,
+    "status": "LEGACY_SNAPSHOT_ONLY",
+    "snapshot_path": "legacy/v2_snapshot/configs/parameters.json#lens_design",
+    "note": "v3 用一体化纤端透镜取代双准直镜；旧双镜配置只读保留于 legacy 快照，不得作为激活参数"
+  },
+  "fiber": {
+    "model": "HI 1060 FLEX",
+    "source": "U2 page 2",
+    "operating_nm": "greater_than_980",
+    "cutoff_nm": { "center": 930, "half_range": 40 },
+    "mfd_980_um": { "center": 4.0, "half_range": 0.3 },
+    "mfd_1550_um": { "center": 6.3, "half_range": 0.3 },
+    "nominal_NA": 0.22,
+    "nominal_core_diameter_um": 3.4,
+    "nominal_delta_percent": 1.0,
+    "core_n_at_651_nm": 1.472,
+    "standard_clad_diameter_um": { "center": 125, "half_range": 0.5 },
+    "standard_coating_diameter_um": { "center": 245, "half_range": 10 },
+    "rc_clad_diameter_um": { "center": 80, "half_range": 1 },
+    "rc_coating_diameter_um": { "center": 165, "half_range": 10 },
+    "core_offset_um": { "standard_max": 0.3, "rc_max": 0.5 },
+    "attenuation_dB_km": { "980_max": 2.5, "1550_max": 1.0 },
+    "note_974": "974nm 高于 U2 报告的截止包络上限(930+40=970nm)，且低于 U2 标称工作范围 >980nm；按标称芯径/NA(F_NOM)的弱导截止估计约977nm，974nm 略低于该估计，对应 V 略高于 LP11 截止阈值。实际模结构须经 S02 数值模式分析，不据此保证单模"
+  },
+  "assumptions": {
+    "fast_fwhm_deg": { "value": 30, "grade": "A", "source": "A_FAST30", "scenarios": [20, 30, 40] },
+    "angle_convention": { "value": "full_angle_FWHM", "grade": "E" },
+    "astigmatism_um": { "value": 0, "grade": "E" },
+    "source_polarization": { "value": "x", "grade": "E", "note": "假设值，不是实测偏振" },
+    "spectrum_shape": { "value": "Gaussian power density per wavelength", "grade": "E" },
+    "reference_temperature_C": { "value": 20, "grade": "E" },
+    "n_air": { "value": 1, "grade": "E" },
+    "fiber_facet": {
+      "value": "integrated_wedge_arc_lens_flat_output_facet",
+      "grade": "E",
+      "note": "平整、法向、未镀膜的输出端面与空气界面均为假设(E)；均匀输出模式端口/平端截面是建模选择，不是必须真实存在的平端实体；实际端面与镀膜状态未知"
+    },
+    "clad": { "value": "Malitson fused silica", "grade": "R+E", "source": "R_MALITSON" },
+    "core_profile": { "value": "equivalent_step_index", "grade": "E" },
+    "lens_absorption_k": { "value": 0, "grade": "E" }
+  },
+  "unknowns": [
+    "target fast-axis measured far field",
+    "5um width convention and axis/plane",
+    "near/far-field complex amplitude and astigmatism",
+    "actual refractive-index profile",
+    "measured spectrum shape",
+    "measured coupling and alignment curves",
+    "actual integrated tip-lens figure, apex position and coating",
+    "chip-to-tip real gap and alignment"
+  ]
+}

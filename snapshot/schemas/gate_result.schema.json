@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Actual gate result",
+  "required": ["id", "status", "value", "evidence_ids"],
+  "properties": {
+    "id": { "type": "string" },
+    "status": { "enum": ["PASS", "FAIL", "NOT_RUN", "BLOCKED", "NOT_APPLICABLE", "DEFERRED"] },
+    "value": { "type": ["number", "boolean", "null"] },
+    "evidence_ids": { "type": "array", "items": { "type": "string", "pattern": "\\S" } },
+    "reason": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "enum": ["NOT_RUN", "NOT_APPLICABLE", "DEFERRED"] } } },
+      "then": {
+        "required": ["reason"],
+        "properties": {
+          "value": { "type": "null" },
+          "reason": { "type": "string", "pattern": "\\S" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "const": "PASS" } } },
+      "then": {
+        "properties": {
+          "value": { "type": ["number", "boolean"] },
+          "evidence_ids": { "minItems": 1 }
+        }
+      }
+    }
+  ],
+  "description": "Schema validates structure only. PASS requires a value, nonblank evidence IDs and actual evidence verified against artifact paths, sizes and hashes by validation.gate_evidence.verify_pass_evidence; thresholds are from configs/gates.json. Preflight cannot establish COMSOL gates."
+}

@@ -1,0 +1,62 @@
+{
+  "record_type": "COMSOL_CASE",
+  "case_id": null,
+  "status": "NOT_RUN",
+  "simulation_wavelength_nm": null,
+  "head_geometry_snapshot": {
+    "wedge_half_angle_deg": null,
+    "tip_radius_um": null,
+    "axial_gap_um": null,
+    "geometry_math_sha256": null
+  },
+  "parameters": {},
+  "config_sha256": null,
+  "input_sha256": null,
+  "code_sha256": null,
+  "model_sha256": null,
+  "comsol_version": null,
+  "comsol_build": null,
+  "comsol_license_evidence_artifact_id": null,
+  "model_artifact_id": null,
+  "study_tag": null,
+  "dataset_tag": null,
+  "solution_index": null,
+  "source_power_W": null,
+  "denominator_W": null,
+  "HE11_power_W": null,
+  "eta_HE11": null,
+  "power_closure_relative": null,
+  "dof": null,
+  "runtime_s": null,
+  "started_at_utc": null,
+  "finished_at_utc": null,
+  "solve_executed": false,
+  "solution_cleared": false,
+  "job_id": null,
+  "mcp_call_log_artifact_id": null,
+  "raw_field_artifact_ids": [],
+  "independent_review": {
+    "status": "NOT_RUN",
+    "review_artifact_id": null,
+    "candidate_sha256": null,
+    "reason": "本空模板尚未关联独立审查及其冻结候选哈希。"
+  },
+  "sync": {
+    "status": "NOT_RUN",
+    "remote": null,
+    "artifact_manifest_id": null,
+    "reason": "本空模板尚未关联实际远端同步或可取回制品证据。"
+  },
+  "error": null,
+  "unknown_reasons": {
+    "input_sha256": "尚未将 U1/U2 输入哈希绑定到该 case；实际记录应填写输入 ID 到 SHA-256 的映射。",
+    "code_sha256": "尚未冻结并绑定生成代码；实际记录应填写代码文件到 SHA-256 的映射。",
+    "model_sha256": "尚未绑定该 case 的实际模型文件与哈希。",
+    "comsol_build": "尚未记录本 case 实际运行时的 COMSOL build。",
+    "comsol_license_evidence_artifact_id": "尚未关联实际运行时的去敏许可核验记录。",
+    "started_at_utc": "尚无该 case 的实际作业开始时间。",
+    "finished_at_utc": "尚无该 case 的实际作业结束时间。",
+    "mcp_call_log_artifact_id": "尚未关联该 case 的真实 MCP 调用日志制品。"
+  },
+  "note": "v3 空模板：所有 null 均表示尚未获得或绑定实际证据；禁止用 0 或历史值冒充。solve_executed 和 solution_cleared 仅在相应真实操作完成后置真。"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Actual local artifact record",
+  "required": ["id", "role", "path", "sha256", "size_bytes"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "role": { "enum": ["model", "raw_field", "solver_log", "mcp_call_log", "code", "config", "input", "review", "candidate_manifest", "table", "figure"] },
+    "path": { "type": "string", "minLength": 1 },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "size_bytes": { "type": "integer", "minimum": 1 },
+    "approved_location": { "type": ["string", "null"] },
+    "download_verified": { "type": "boolean" }
+  },
+  "description": "Hash verified against actual bytes; location must be approved before any upload. G20 (v3) uses this record for the single model plus its complex-field artifacts."
+}

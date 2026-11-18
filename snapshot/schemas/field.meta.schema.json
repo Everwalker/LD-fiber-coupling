@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "title": "Solved complete physical field metadata",
+  "required": ["case_id", "quantity_kind", "phasor", "projection_assumptions", "lambda_m", "source_power_W", "units", "model_sha256", "config_sha256", "study_tag", "dataset_tag", "plane_id", "quadrature_method"],
+  "properties": {
+    "case_id": { "type": "string", "minLength": 1 },
+    "quantity_kind": { "const": "FULL_PHYSICAL_COMPLEX_FIELD" },
+    "phasor": { "const": "exp(+i*omega*t)" },
+    "projection_assumptions": { "const": "LOSSLESS_RECIPROCAL_FORWARD_MODES" },
+    "lambda_m": { "type": "number", "exclusiveMinimum": 0 },
+    "source_power_W": { "type": "number", "exclusiveMinimum": 0 },
+    "units": { "type": "object", "required": ["coords", "E", "H", "weights"] },
+    "model_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "config_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "study_tag": { "type": "string", "minLength": 1 },
+    "dataset_tag": { "type": "string", "minLength": 1 },
+    "plane_id": { "type": "string", "minLength": 1 },
+    "quadrature_method": { "type": "string", "minLength": 1 }
+  },
+  "description": "Schema applies to actual solved field records, not deliberately empty templates. Runtime checks additionally validate NPZ shapes, units and physics. Records produced by v3 preflight are math artifacts and must not claim these model/dataset fields."
+}

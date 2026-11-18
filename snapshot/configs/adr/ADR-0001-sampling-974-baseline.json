@@ -1,0 +1,20 @@
+{
+  "record_type": "ADR",
+  "id": "ADR-0001",
+  "title": "第一版 974nm 代表工况的采样数量修改",
+  "status": "ACCEPTED_USER_SCOPE",
+  "status_note": "用户已确认按单模型目标调整并生成新包；两点数值回归为主 Agent 按保留 G15 要求确定，独立审查和 COMSOL 验证另行记录。",
+  "date": "2026-11-11",
+  "context": "用户指定第一版为单一 974nm 代表工况，一个可参数化 3D 模型；不进行形状对比、优化、公差扫描或宽谱扫描。原 v2 scan_plan 的谱/公差采样与本版范围冲突。",
+  "evidence": "用户 2026-11-11 指令：一个基线，保留 U1 967/970/973nm 与 U2 930±40/工作>980 原值，采样数量可按第一版代表工况修改，变更须 ADR。",
+  "options": [
+    "A: 保留 v2 全谱+公差采样（与用户范围冲突，增加无效成本）",
+    "B: 谱采样=1(974nm)、公差=0，保留网格/PML/清解重算等收敛性采样（选定）"
+  ],
+  "decision": "B。configs/sampling.json 记录 v2→v3 数量对照；谱/公差 gate 分类为 deferred，不删除 gate 原 id 与阈值。",
+  "impact": "不影响任何保留的原数值阈值；G07b/G12a/G12b/G13/G21 后移但不删除；G08/G09/G15 采样保留。",
+  "approval": { "approved_by": "用户确认范围；主 Agent 整合代表工况", "date": "2026-11-11", "required_from": null },
+  "implementation": { "config_files": ["configs/sampling.json", "configs/gates.json"], "config_version": 3 },
+  "regates": ["G03a", "G03b", "G07a", "G08", "G09", "G15", "G18"],
+  "rollback": "恢复 legacy/v2_snapshot/configs/scan_plan.json 并撤销 gates.json 的 deferred 分类。"
+}
